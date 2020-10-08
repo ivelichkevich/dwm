@@ -18,6 +18,11 @@ necessary as root):
 
     make clean install
 
+Patched
+-----------
+https://dwm.suckless.org/customisation/patches_in_git
+https://dwm.suckless.org/patches/attachdirection
+
 
 Running dwm
 -----------
