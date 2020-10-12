@@ -101,6 +101,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_space,  focusmaster,    {0} },
 	{ MODKEY|ControlMask,           XK_j,      pushdown,       {0} },
 	{ MODKEY|ControlMask,           XK_k,      pushup,         {0} },
+	{ MODKEY,			XK_w,	   spawn,	   SHCMD("$BROWSER") },
 };
 
 /* button definitions */
