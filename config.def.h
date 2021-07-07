@@ -72,11 +72,11 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod3Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, /* change tag  */             \
+	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, /* add tag */                 \
+	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, /* move active win to tag  */ \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
@@ -90,20 +90,23 @@ static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "0", "+5%"
 static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "-5%",     NULL };
 static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "0", "toggle",  NULL };
 
+static const char *upbri[]   = { "/usr/bin/xbacklight", "-inc", "10", NULL };
+static const char *downbri[] = { "/usr/bin/xbacklight", "-dec", "10", NULL };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } }, /* change active windows in stack  */
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} }, /* change width of master window  */
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+	{ MODKEY,                       XK_Return, zoom,           {0} }, /* change master with selcted slave or next slave in stack  */
+	{ MODKEY,                       XK_Tab,    view,           {0} }, /* alt-tab between 2 last tags  */
+	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} }, /* Terminate the process running in the current window  */
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
@@ -134,9 +137,11 @@ static Key keys[] = {
     { 0,              XF86XK_AudioLowerVolume, spawn,          {.v = downvol } },
     { 0,                     XF86XK_AudioMute, spawn,          {.v = mutevol } },
     { 0,              XF86XK_AudioRaiseVolume, spawn,          {.v = upvol   } },
-    { Mod4Mask,                     XK_Down,   spawn,          {.v = downvol } },
-    { Mod4Mask,                     XK_F9,     spawn,          {.v = mutevol } },
-    { Mod4Mask,                     XK_Up,     spawn,          {.v = upvol   } },
+    { MODKEY,                     XK_equal ,   spawn,          {.v = upbri   } },
+    { MODKEY,                     XK_minus,    spawn,          {.v = downbri } },
+    { MODKEY,                     XK_Down,     spawn,          {.v = downvol } },
+    { MODKEY,                     XK_F9,       spawn,          {.v = mutevol } },
+    { MODKEY,                     XK_Up,       spawn,          {.v = upvol   } },
 };
 
 /* button definitions */
