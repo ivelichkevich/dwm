@@ -62,7 +62,7 @@ static const Rule rules[] = {
 static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int attachdirection = 2;    /* 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
+static int attachdirection = 2;    /* 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
 
 #include "layouts.c"
 static const Layout layouts[] = {
@@ -144,7 +144,8 @@ static Key keys[] = {
     { MODKEY,                     XK_Down,     spawn,          {.v = downvol } },
     { MODKEY,                     XK_F9,       spawn,          {.v = mutevol } },
     { MODKEY,                     XK_Up,       spawn,          {.v = upvol   } },
-	{ MODKEY|ShiftMask,           XK_s,        toggleswallow,  {.i = 2       } }, // arg > 1 -toogle, 0 or 1 - set arg 
+	{ MODKEY|ControlMask,         XK_s,        toggleswallow,  {.i = 2       } }, // arg > 1 -toogle, 0 or 1 - set arg 
+	{ MODKEY|ControlMask,         XK_d,        nextdirection,  {.i = 6       } }, // arg > 5 -toogle, 0 or 5 - set arg | 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top
 };
 
 /* button definitions */

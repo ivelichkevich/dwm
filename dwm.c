@@ -267,6 +267,8 @@ static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 
 static void focusmaster(const Arg *arg);
+static void attachDirection(Client *c);
+static void nextdirection(const Arg *arg);
 
 /* variables */
 static const char broken[] = "broken";
@@ -1244,25 +1246,7 @@ manage(Window w, XWindowAttributes *wa)
 		c->isfloating = c->oldstate = trans != None || c->isfixed;
 	if (c->isfloating)
 		XRaiseWindow(dpy, c->win);
-	switch(attachdirection){
-		case 1:
-			attachabove(c);
-			break;
-		case 2:
-			attachaside(c);
-			break;
-		case 3:
-			attachbelow(c);
-			break;
-		case 4:
-			attachbottom(c);
-			break;
-		case 5:
-			attachtop(c);
-			break;
-		default:
-			attach(c);
-	}
+	attachDirection(c);
 	attachstack(c);
 	XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
 		(unsigned char *) &(c->win), 1);
@@ -1682,25 +1666,7 @@ sendmon(Client *c, Monitor *m)
 	detachstack(c);
 	c->mon = m;
 	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
-	switch(attachdirection){
-		case 1:
-			attachabove(c);
-			break;
-		case 2:
-			attachaside(c);
-			break;
-		case 3:
-			attachbelow(c);
-			break;
-		case 4:
-			attachbottom(c);
-			break;
-		case 5:
-			attachtop(c);
-			break;
-		default:
-			attach(c);
-	}
+	attachDirection(c);
 	attachstack(c);
 	focus(NULL);
 	arrange(NULL);
@@ -2259,25 +2225,7 @@ updategeom(void)
 					m->clients = c->next;
 					detachstack(c);
 					c->mon = mons;
-					switch(attachdirection){
-					case 1:
-						attachabove(c);
-						break;
-					case 2:
-						attachaside(c);
-						break;
-					case 3:
-						attachbelow(c);
-						break;
-					case 4:
-						attachbottom(c);
-						break;
-					case 5:
-						attachtop(c);
-						break;
-					default:
-						attach(c);
-					}
+					attachDirection(c);
 					attachstack(c);
 				}
 				if (m == selmon)
@@ -2670,4 +2618,38 @@ focusmaster(const Arg *arg)
 
 	if (c)
 		focus(c);
+}
+
+void
+attachDirection(Client *c) 
+{
+	switch(attachdirection){
+		case 1:
+			attachabove(c);
+			break;
+		case 2:
+			attachaside(c);
+			break;
+		case 3:
+			attachbelow(c);
+			break;
+		case 4:
+			attachbottom(c);
+			break;
+		case 5:
+			attachtop(c);
+			break;
+		default:
+			attach(c);
+	}
+}
+
+void
+nextdirection(const Arg *arg)
+{
+	if ((arg->i > 5) || (arg->i < 0)) {
+		attachdirection = ++attachdirection % 6;
+	} else {
+		attachdirection = arg->i;
+	}
 }

@@ -24,13 +24,18 @@ necessary as root):
 Patched
 -----------
 https://dwm.suckless.org/customisation/patches_in_git
+
 https://dwm.suckless.org/patches/attachdirection
+    Where attach new window, at master position or slave
+    { MODKEY|ControlMask,         XK_d,        nextdirection,  {.i = 6       } }, // arg > 5 -toogle, 0 or 5 - set arg | 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top
+
 https://dwm.suckless.org/patches/push
 https://dwm.suckless.org/patches/gridmode
 
+
+https://dwm.suckless.org/patches/swallow/
 Swallow st with Xapp
     https://www.youtube.com/watch?v=92uo5OBOKfY
-    https://dwm.suckless.org/patches/swallow/
     if open X app from st, detach it from st (setsid -f) and replace with it st (no need to change to monocle)
     dwm-swallow-20160717-56a31dc.diff
     patch --merge -i dwm-swallow-20160717-56a31dc.diff
@@ -39,9 +44,8 @@ Swallow st with Xapp
     vim config.def.h
      56     { "st",       NULL,       NULL,             0,            0,           1,         0,        -1 },
      57     { NULL,       NULL,       "Event Tester",   0,            0,           1,         1,        -1 }  // exeption for swallow
-
-{ MODKEY|ShiftMask,           XK_s,        toggleswallow,  {.i = 2       } }, // arg > 1 -toogle, 0 or 1 - set arg
-enable/disable swallow
+    { MODKEY|ShiftMask,           XK_s,        toggleswallow,  {.i = 2       } }, // arg > 1 -toogle, 0 or 1 - set arg
+    enable/disable swallow
 
 Running dwm
 -----------
