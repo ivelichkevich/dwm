@@ -1,6 +1,7 @@
 dwm - dynamic window manager
 ============================
 dwm is an extremely fast, small, and dynamic window manager for X.
+https://dwm.suckless.org/tutorial/
 
 Src
 ------------
@@ -30,6 +31,10 @@ https://dwm.suckless.org/patches/attachdirection
     { MODKEY|ControlMask,         XK_d,        nextdirection,  {.i = 6       } }, // arg > 5 -toogle, 0 or 5 - set arg | 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top
 
 https://dwm.suckless.org/patches/push
+way to move clients inside the clients list.
+    { MODKEY|ControlMask,           XK_j,      pushdown,       {0} },
+	{ MODKEY|ControlMask,           XK_k,      pushup,         {0} },
+
 https://dwm.suckless.org/patches/gridmode
 
 
@@ -46,6 +51,11 @@ Swallow st with Xapp
      57     { NULL,       NULL,       "Event Tester",   0,            0,           1,         1,        -1 }  // exeption for swallow
     { MODKEY|ShiftMask,           XK_s,        toggleswallow,  {.i = 2       } }, // arg > 1 -toogle, 0 or 1 - set arg
     enable/disable swallow
+
+https://dwm.suckless.org/patches/centeredmaster/dwm-centeredmaster-20160719-56a31dc.diff
+Add master in center layout
+    { MODKEY,                       XK_u,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[5]} },
 
 Running dwm
 -----------
@@ -74,3 +84,12 @@ Configuration
 -------------
 The configuration of dwm is done by creating a custom config.h
 and (re)compiling the source code.
+
+Troubleshooting
+---------------
+Fixing misbehaving Java applications
+Try setting export _JAVA_AWT_WM_NONREPARENTING=1. Also see the Java page.
+https://wiki.archlinux.org/title/Java#Gray_window,_applications_not_resizing_with_WM,_menus_immediately_closing
+
+Fixing gaps around terminal windows
+for st terminal emulator, you can apply the https://st.suckless.org/patches/anysize

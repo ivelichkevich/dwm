@@ -62,6 +62,7 @@ static const Rule rules[] = {
 static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static int isswallow = 1;
 static int attachdirection = 2;    /* 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
 
 #include "layouts.c"
@@ -71,6 +72,8 @@ static const Layout layouts[] = {
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 	{ "HHH",      grid },
+	{ "|M|",      centeredmaster },
+	{ ">M>",      centeredfloatingmaster },
 };
 
 /* key definitions */
@@ -113,6 +116,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[5]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -131,6 +136,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_q,      spawn,	       SHCMD("killall xinit") },
 	{ MODKEY|ControlMask,           XK_space,  focusmaster,    {0} },
 	{ MODKEY|ControlMask,           XK_j,      pushdown,       {0} },
 	{ MODKEY|ControlMask,           XK_k,      pushup,         {0} },
@@ -144,7 +150,7 @@ static Key keys[] = {
     { MODKEY,                     XK_Down,     spawn,          {.v = downvol } },
     { MODKEY,                     XK_F9,       spawn,          {.v = mutevol } },
     { MODKEY,                     XK_Up,       spawn,          {.v = upvol   } },
-	{ MODKEY|ControlMask,         XK_s,        toggleswallow,  {.i = 2       } }, // arg > 1 -toogle, 0 or 1 - set arg 
+	{ MODKEY|ControlMask,         XK_s,        toggleswallow,  {.i = 2       } }, // arg > 1 -toogle, 0 or 1 - set arg
 	{ MODKEY|ControlMask,         XK_d,        nextdirection,  {.i = 6       } }, // arg > 5 -toogle, 0 or 5 - set arg | 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top
 };
 
@@ -171,4 +177,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
-extern int isswallow;
