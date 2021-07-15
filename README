@@ -57,6 +57,11 @@ Add master in center layout
     { MODKEY,                       XK_u,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[5]} },
 
+startdwm.sh
+    restart dwm if binary changed
+    add it execution in ~/.xinitrc
+    taken from https://wiki.archlinux.org/title/dwm
+
 Running dwm
 -----------
 Add the following line to your .xinitrc to start dwm using startx:
