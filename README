@@ -62,6 +62,10 @@ startdwm.sh
     add it execution in ~/.xinitrc
     taken from https://wiki.archlinux.org/title/dwm
 
+https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20191112-cb3f58a.diff
+This actually fullscreens a window, instead of just hiding the statusbar and applying the monocle layout.
+    { MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
+
 Running dwm
 -----------
 Add the following line to your .xinitrc to start dwm using startx:
