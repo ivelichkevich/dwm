@@ -97,6 +97,10 @@ static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "0", "togg
 
 static const char *upbri[]   = { "/usr/bin/xbacklight", "-inc", "10", NULL };
 static const char *downbri[] = { "/usr/bin/xbacklight", "-dec", "10", NULL };
+static const char *scroff[] = { "/usr/bin/xset", "dpms", "force", "off", NULL }; // turn off screen
+
+static const char *scrotcmd[]  = { "scrot", NULL };
+static const char *scrotfocusedcmd[]  = { "scrot", "--focused", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -148,11 +152,17 @@ static Key keys[] = {
     { 0,              XF86XK_AudioRaiseVolume, spawn,          {.v = upvol   } },
     { MODKEY,                     XK_equal ,   spawn,          {.v = upbri   } },
     { MODKEY,                     XK_minus,    spawn,          {.v = downbri } },
+	{ 0,    	       XF86XK_MonBrightnessUp, spawn,          {.v = upbri   } },
+    { 0,  	    	 XF86XK_MonBrightnessDown, spawn,          {.v = downbri } },
+	{ 0,  	    	       XF86XK_ScreenSaver, spawn,          {.v = scroff  } }, // turn off screen
     { MODKEY,                     XK_Down,     spawn,          {.v = downvol } },
     { MODKEY,                     XK_F9,       spawn,          {.v = mutevol } },
     { MODKEY,                     XK_Up,       spawn,          {.v = upvol   } },
-	{ MODKEY|ControlMask,         XK_s,        toggleswallow,  {.i = 2       } }, // arg > 1 -toogle, 0 or 1 - set arg
-	{ MODKEY|ControlMask,         XK_d,        nextdirection,  {.i = 6       } }, // arg > 5 -toogle, 0 or 5 - set arg | 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top
+	{ MODKEY|ControlMask,         XK_s,        toggleswallow,  {.i = 2       } }, /* arg > 1 -toogle, 0 or 1 - set arg */
+	{ MODKEY|ControlMask,         XK_d,        nextdirection,  {.i = 6       } }, /* arg > 5 -toogle, 0 or 5 - set arg | 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
+	{ 0,            			  XK_Print,    spawn,          {.v = scrotcmd } }, /* take screenshot by scrot*/
+	{ ShiftMask,    			  XK_Print,    spawn,          {.v = scrotfocusedcmd } }, /* take screenshot of focused */
+	{ ControlMask,  			  XK_Print,    spawn,           SHCMD("scrot --select --freeze") }, /* select aria for screnshot */
 };
 
 /* button definitions */
@@ -162,11 +172,11 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
-	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} }, //middle btn (Cmd+Click)
-    { ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
-    { ClkStatusText,        0,              Button4,        sigdwmblocks,   {.i = 4} },
-    { ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
+	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} }, // btn1 - left btn
+	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} }, // btn2 - middle btn (Cmd+Click)
+    { ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} }, // btn3 - right btn
+    { ClkStatusText,        0,              Button4,        sigdwmblocks,   {.i = 4} }, // btn4 - scroll up   - vol up
+    { ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} }, // btn5 - scroll down - vol down
     { ClkStatusText,        ShiftMask,      Button1,        sigdwmblocks,   {.i = 6} },
     { ClkStatusText,        ShiftMask,      Button3,        sigdwmblocks,   {.i = 7} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },

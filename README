@@ -65,6 +65,11 @@ startdwm.sh
 https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20191112-cb3f58a.diff
 This actually fullscreens a window, instead of just hiding the statusbar and applying the monocle layout.
     { MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
+https://economical-with-words.blogspot.com/2013/02/taking-screenshots-in-dwm.html
+Add screenshot by print screen keys, use scrot
+    { 0,            			  XK_Print,    spawn,          {.v = scrotcmd } },
+	{ ShiftMask,    			  XK_Print,    spawn,          {.v = scrotfocusedcmd } },
+	{ ControlMask,  			  XK_Print,    spawn,           SHCMD("sleep 1s;scrot --select") },
 
 Running dwm
 -----------
