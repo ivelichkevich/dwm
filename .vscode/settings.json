@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "xutil.h": "c",
+        "xproto.h": "c",
+        "locale.h": "c",
+        "errno.h": "c"
+    }
+}

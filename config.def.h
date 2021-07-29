@@ -163,6 +163,8 @@ static Key keys[] = {
 	{ 0,            			  XK_Print,    spawn,          {.v = scrotcmd } }, /* take screenshot by scrot*/
 	{ ShiftMask,    			  XK_Print,    spawn,          {.v = scrotfocusedcmd } }, /* take screenshot of focused */
 	{ ControlMask,  			  XK_Print,    spawn,           SHCMD("scrot --select --freeze") }, /* select aria for screnshot */
+	{ MODKEY,           		  XK_Right,    shiftview,  	   { .i = +1 } }, // next tag
+	{ MODKEY,           		  XK_Left,     shiftview,      { .i = -1 } }, // prev tag
 };
 
 /* button definitions */

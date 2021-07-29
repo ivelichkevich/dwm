@@ -71,6 +71,12 @@ Add screenshot by print screen keys, use scrot
 	{ ShiftMask,    			  XK_Print,    spawn,          {.v = scrotfocusedcmd } },
 	{ ControlMask,  			  XK_Print,    spawn,           SHCMD("sleep 1s;scrot --select") },
 
+https://dwm.suckless.org/patches/nextprev/
+Go to next tag by hotkey (can assign to gesture swipe: yay libinput-gestures)
+    { MODKEY,           		  XK_Right,    shiftview,  	   { .i = +1 } }, // next tag
+	{ MODKEY,           		  XK_Left,     shiftview,      { .i = -1 } }, // prev tag
+
+
 Running dwm
 -----------
 Add the following line to your .xinitrc to start dwm using startx:
