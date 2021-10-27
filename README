@@ -1,7 +1,7 @@
 dwm - dynamic window manager
 ============================
 dwm is an extremely fast, small, and dynamic window manager for X.
-https://dwm.suckless.org/tutorial/
+https://dwm.suckless.org/tutorial
 
 Src
 ------------
@@ -11,6 +11,9 @@ Requirements
 ------------
 In order to build dwm you need the Xlib header files.
 
+sudo pacman -S xorg-server xorg-xinit xorg-xrandr xorg-xsetroot
+sudo pacman -S libxinerama libxft ttf-liberation
+yay xdotool xvkbd scrot
 
 Installation
 ------------
@@ -26,20 +29,19 @@ Patched
 -----------
 https://dwm.suckless.org/customisation/patches_in_git
 
+Where attach new window, at master position or slave
 https://dwm.suckless.org/patches/attachdirection
-    Where attach new window, at master position or slave
-    { MODKEY|ControlMask,         XK_d,        nextdirection,  {.i = 6       } }, // arg > 5 -toogle, 0 or 5 - set arg | 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top
+    { MODKEY|ControlMask,         XK_d,        nextdirection,  { .i = 6 } }, // arg > 5 -toogle, 0 or 5 - set arg | 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top
 
+Way to move clients inside the clients list
 https://dwm.suckless.org/patches/push
-way to move clients inside the clients list.
     { MODKEY|ControlMask,           XK_j,      pushdown,       {0} },
 	{ MODKEY|ControlMask,           XK_k,      pushup,         {0} },
 
 https://dwm.suckless.org/patches/gridmode
 
-
-https://dwm.suckless.org/patches/swallow/
 Swallow st with Xapp
+https://dwm.suckless.org/patches/swallow/
     https://www.youtube.com/watch?v=92uo5OBOKfY
     if open X app from st, detach it from st (setsid -f) and replace with it st (no need to change to monocle)
     dwm-swallow-20160717-56a31dc.diff
@@ -52,8 +54,8 @@ Swallow st with Xapp
     { MODKEY|ShiftMask,           XK_s,        toggleswallow,  {.i = 2       } }, // arg > 1 -toogle, 0 or 1 - set arg
     enable/disable swallow
 
-https://dwm.suckless.org/patches/centeredmaster/dwm-centeredmaster-20160719-56a31dc.diff
 Add master in center layout
+https://dwm.suckless.org/patches/centeredmaster/dwm-centeredmaster-20160719-56a31dc.diff
     { MODKEY,                       XK_u,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[5]} },
 
@@ -62,17 +64,18 @@ startdwm.sh
     add it execution in ~/.xinitrc
     taken from https://wiki.archlinux.org/title/dwm
 
+This actually fullscreens a window, instead of just hiding the statusbar and applying the monocle layout
 https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20191112-cb3f58a.diff
-This actually fullscreens a window, instead of just hiding the statusbar and applying the monocle layout.
     { MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
-https://economical-with-words.blogspot.com/2013/02/taking-screenshots-in-dwm.html
+
 Add screenshot by print screen keys, use scrot
+https://economical-with-words.blogspot.com/2013/02/taking-screenshots-in-dwm.html
     { 0,            			  XK_Print,    spawn,          {.v = scrotcmd } },
 	{ ShiftMask,    			  XK_Print,    spawn,          {.v = scrotfocusedcmd } },
 	{ ControlMask,  			  XK_Print,    spawn,           SHCMD("sleep 1s;scrot --select") },
 
-https://dwm.suckless.org/patches/nextprev/
 Go to next tag by hotkey (can assign to gesture swipe: yay libinput-gestures)
+https://dwm.suckless.org/patches/nextprev
     { MODKEY,           		  XK_Right,    shiftview,  	   { .i = +1 } }, // next tag
 	{ MODKEY,           		  XK_Left,     shiftview,      { .i = -1 } }, // prev tag
 

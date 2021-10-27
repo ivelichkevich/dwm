@@ -80,9 +80,9 @@ static const Layout layouts[] = {
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, /* change tag  */             \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, /* add tag */                 \
+	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, /* toggle tag to visible tags */                 \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, /* move active win to tag  */ \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+	{ MODKEY|Mod1Mask,  			KEY,      toggletag,      {.ui = 1 << TAG} }, /* toggle win on tag */		\
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -102,31 +102,51 @@ static const char *scroff[] = { "/usr/bin/xset", "dpms", "force", "off", NULL };
 static const char *scrotcmd[]  = { "scrot", NULL };
 static const char *scrotfocusedcmd[]  = { "scrot", "--focused", NULL };
 
+static const char *modc[] = { "/bin/bash", "copypaste.sh", "copy",  NULL };
+static const char *modv[] = { "/bin/bash", "copypaste.sh", "paste", NULL };
+// 										   xvkbd -xsendevent -text '\[Control_L]a'
+static const char *moda[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]a",  NULL };
+static const char *modx[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]x",  NULL };
+static const char *modz[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]z",  NULL };
+static const char *mody[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]y",  NULL };
+static const char *mods[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]s",  NULL };\
+static const char *modf[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]f",  NULL };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } }, /* change active windows in stack  */
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} }, /* change width of master window  */
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} }, /* change master with selcted slave or next slave in stack  */
-	{ MODKEY,                       XK_Tab,    view,           {0} }, /* alt-tab between 2 last tags  */
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} }, /* Terminate the process running in the current window  */
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[4]} },
-	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[5]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },		 /* open dmenu to run program */
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },		 /* new st */
+	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} }, 					 /* Terminate the process running in the current window  */
+	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },					 /* relaunch dwm */
+	{ MODKEY|ShiftMask,             XK_q,      spawn,	       SHCMD("killall xinit") }, /* exit X11 */
+	{ MODKEY|ControlMask,           XK_b,      togglebar,      {0} },				     /* toggle bar */
+	{ MODKEY|ControlMask,           XK_Return, togglefullscr,  {0} },				     /* toggle fullscreen */
+	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } }, 		     /* go to (select, make active) next window in stack */
+	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },			 /* go to (select, make active) pre  window in stack */
+	{ MODKEY|ShiftMask,             XK_j,      pushdown,       {0} },					 /* move slave down in stack */
+	{ MODKEY|ShiftMask,             XK_k,      pushup,         {0} },					 /* move slave up in stack */
+	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} }, 			 /* change width of master window  - */
+	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },			 /* change width of master window  + */
+	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },				     /* toggle win from float to tiles and vise versa */
+	{ MODKEY,           			XK_space,  focusmaster,    {0} },			 		 /* go to (select) master */
+
+	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },			 /* add win to   master aria */
+	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },			 /* del win from master aria */
+	
+	{ MODKEY,                       XK_Return, zoom,           {0} }, 				/* toggle a window between the master and stack area  */
+	{ MODKEY,                       XK_Tab,    view,           {0} }, 				/* alt-tab between 2 last views  */
+
+	{ MODKEY|ControlMask,           XK_t,      setlayout,      {.v = &layouts[0]} },/* tile, def layout */
+	{ MODKEY|ControlMask,           XK_f,      setlayout,      {.v = &layouts[1]} },/* floating - no layout */
+	{ MODKEY|ControlMask,           XK_m,      setlayout,      {.v = &layouts[2]} },/* monocle - 1 win per view, (mod+j/k - next win) */
+	{ MODKEY|ControlMask,           XK_g,      setlayout,      {.v = &layouts[3]} },/* grid HH */
+	{ MODKEY|ControlMask,           XK_u,      setlayout,      {.v = &layouts[4]} },/* master in center || || */
+	{ MODKEY|ControlMask,           XK_o,      setlayout,      {.v = &layouts[5]} },/* floating master in center (why need it?) */
+	{ MODKEY|ControlMask,           XK_space,  setlayout,      {0} },
+	
+	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },		/* select all views (show windows from all views) */
+	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },		/* make window visible in all views */
+
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
@@ -140,31 +160,35 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
-	{ MODKEY|ShiftMask,             XK_q,      spawn,	       SHCMD("killall xinit") },
-	{ MODKEY|ControlMask,           XK_space,  focusmaster,    {0} },
-	{ MODKEY|ControlMask,           XK_j,      pushdown,       {0} },
-	{ MODKEY|ControlMask,           XK_k,      pushup,         {0} },
-	{ MODKEY,			            XK_w,	   spawn,	       SHCMD("$BROWSER") },
-	{ MODKEY,			            XK_v,	   spawn,	       SHCMD("clipmenu") },
-    { 0,              XF86XK_AudioLowerVolume, spawn,          {.v = downvol } },
-    { 0,                     XF86XK_AudioMute, spawn,          {.v = mutevol } },
-    { 0,              XF86XK_AudioRaiseVolume, spawn,          {.v = upvol   } },
-    { MODKEY,                     XK_equal ,   spawn,          {.v = upbri   } },
-    { MODKEY,                     XK_minus,    spawn,          {.v = downbri } },
-	{ 0,    	       XF86XK_MonBrightnessUp, spawn,          {.v = upbri   } },
-    { 0,  	    	 XF86XK_MonBrightnessDown, spawn,          {.v = downbri } },
-	{ 0,  	    	       XF86XK_ScreenSaver, spawn,          {.v = scroff  } }, // turn off screen
-    { MODKEY,                     XK_Down,     spawn,          {.v = downvol } },
-    { MODKEY,                     XK_F9,       spawn,          {.v = mutevol } },
-    { MODKEY,                     XK_Up,       spawn,          {.v = upvol   } },
-	{ MODKEY|ControlMask,         XK_s,        toggleswallow,  {.i = 2       } }, /* arg > 1 -toogle, 0 or 1 - set arg */
-	{ MODKEY|ControlMask,         XK_d,        nextdirection,  {.i = 6       } }, /* arg > 5 -toogle, 0 or 5 - set arg | 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
-	{ 0,            			  XK_Print,    spawn,          {.v = scrotcmd } }, /* take screenshot by scrot*/
-	{ ShiftMask,    			  XK_Print,    spawn,          {.v = scrotfocusedcmd } }, /* take screenshot of focused */
+
+	{ MODKEY,			            XK_w,	   spawn,	       SHCMD("$BROWSER") }, // launch browser
+    { 0,              XF86XK_AudioLowerVolume, spawn,          {.v = downvol } }, 	// vol down
+    { 0,                     XF86XK_AudioMute, spawn,          {.v = mutevol } }, 	// vol mute
+    { 0,              XF86XK_AudioRaiseVolume, spawn,          {.v = upvol   } }, 	// vol up
+    { MODKEY,                     XK_Down,     spawn,          {.v = downvol } }, 	// vol down
+    { MODKEY,                     XK_F9,       spawn,          {.v = mutevol } }, 	// vol mute
+    { MODKEY,                     XK_Up,       spawn,          {.v = upvol   } }, 	// vol up
+	{ MODKEY,                     XK_equal ,   spawn,          {.v = upbri   } }, 	// brightness up
+    { MODKEY,                     XK_minus,    spawn,          {.v = downbri } }, 	// brightness down
+	{ 0,    	       XF86XK_MonBrightnessUp, spawn,          {.v = upbri   } }, 	// brightness up
+    { 0,  	    	 XF86XK_MonBrightnessDown, spawn,          {.v = downbri } }, 	// brightness down
+	{ 0,  	    	       XF86XK_ScreenSaver, spawn,          {.v = scroff  } }, 	// turn off screen
+	{ MODKEY|ControlMask,         XK_s,        toggleswallow,  {.i = 2       } }, 	/* arg > 1 = toogle, 0 or 1 - set arg */
+	{ MODKEY|ControlMask,         XK_d,        nextdirection,  {.i = 6       } }, 	/* arg > 5 = toogle, 0 or 5 - set arg | 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
+	{ 0,            			  XK_Print,    spawn,          {.v = scrotcmd } }, 			/* take screenshot by scrot*/
+	{ ShiftMask,    			  XK_Print,    spawn,          {.v = scrotfocusedcmd } }, 	/* take screenshot of focused */
 	{ ControlMask,  			  XK_Print,    spawn,           SHCMD("scrot --select --freeze") }, /* select aria for screnshot */
-	{ MODKEY,           		  XK_Right,    shiftview,  	   { .i = +1 } }, // next tag
-	{ MODKEY,           		  XK_Left,     shiftview,      { .i = -1 } }, // prev tag
+	{ MODKEY,           		  XK_Right,    shiftview,  	   { .i = +1 } },  		// next view
+	{ MODKEY,           		  XK_Left,     shiftview,      { .i = -1 } },  		// prev view
+	{ MODKEY|ShiftMask,			  XK_v,	       spawn,	       SHCMD("clipmenu") }, // open clipboard history
+	{ MODKEY,                     XK_c,        spawn,          {.v = modc } }, 		// win+c = copy to cb
+	{ MODKEY,                     XK_v,        spawn,          {.v = modv } }, 		// win+v = paste from cb
+	{ MODKEY,                     XK_a,        spawn,          {.v = moda } }, 		// win+a = select all
+	{ MODKEY,                     XK_x,        spawn,          {.v = modx } }, 		// win+x = cut to cb
+	{ MODKEY,                     XK_z,        spawn,          {.v = modz } }, 		// win+z = undo
+	{ MODKEY,                     XK_y,        spawn,          {.v = mody } }, 		// win+v = redo
+	{ MODKEY,                     XK_s,        spawn,          {.v = mods } }, 		// win+s = save
+	{ MODKEY,                     XK_f,        spawn,          {.v = modf } }, 		// win+f = save
 };
 
 /* button definitions */
