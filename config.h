@@ -91,9 +91,9 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "0", "+5%",     NULL };
-static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "-5%",     NULL };
-static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "0", "toggle",  NULL };
+#define UP_VOLUME  "/usr/bin/pactl set-sink-volume $(pacmd list-sinks | grep '\\* index:' | awk '{print $3}') +5%"
+#define DOWN_VOLUME "/usr/bin/pactl set-sink-volume $(pacmd list-sinks | grep '\\* index:' | awk '{print $3}') -5%"
+static const char *mutevol[] = { "/usr/bin/pamixer", "--toggle-mute", NULL };
 
 static const char *upbri[]   = { "/usr/bin/xbacklight", "-inc", "10", NULL };
 static const char *downbri[] = { "/usr/bin/xbacklight", "-dec", "10", NULL };
@@ -109,7 +109,7 @@ static const char *moda[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]a",
 static const char *modx[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]x",  NULL };
 static const char *modz[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]z",  NULL };
 static const char *mody[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]y",  NULL };
-static const char *mods[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]s",  NULL };\
+static const char *mods[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]s",  NULL };
 static const char *modf[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]f",  NULL };
 
 static Key keys[] = {
@@ -132,7 +132,7 @@ static Key keys[] = {
 
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },			 /* add win to   master aria */
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },			 /* del win from master aria */
-	
+
 	{ MODKEY,                       XK_Return, zoom,           {0} }, 				/* toggle a window between the master and stack area  */
 	{ MODKEY,                       XK_Tab,    view,           {0} }, 				/* alt-tab between 2 last views  */
 
@@ -143,7 +143,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_u,      setlayout,      {.v = &layouts[4]} },/* master in center || || */
 	{ MODKEY|ControlMask,           XK_o,      setlayout,      {.v = &layouts[5]} },/* floating master in center (why need it?) */
 	{ MODKEY|ControlMask,           XK_space,  setlayout,      {0} },
-	
+
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },		/* select all views (show windows from all views) */
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },		/* make window visible in all views */
 
@@ -162,12 +162,12 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 
 	{ MODKEY,			            XK_w,	   spawn,	       SHCMD("$BROWSER") }, // launch browser
-    { 0,              XF86XK_AudioLowerVolume, spawn,          {.v = downvol } }, 	// vol down
+    { 0,              XF86XK_AudioLowerVolume, spawn,          SHCMD(DOWN_VOLUME) },// vol down
     { 0,                     XF86XK_AudioMute, spawn,          {.v = mutevol } }, 	// vol mute
-    { 0,              XF86XK_AudioRaiseVolume, spawn,          {.v = upvol   } }, 	// vol up
-    { MODKEY,                     XK_Down,     spawn,          {.v = downvol } }, 	// vol down
+    { 0,              XF86XK_AudioRaiseVolume, spawn,          SHCMD(UP_VOLUME) }, 	// vol up
+    { MODKEY,                     XK_Down,     spawn,          SHCMD(DOWN_VOLUME) },// vol down
     { MODKEY,                     XK_F9,       spawn,          {.v = mutevol } }, 	// vol mute
-    { MODKEY,                     XK_Up,       spawn,          {.v = upvol   } }, 	// vol up
+    { MODKEY,                     XK_Up,       spawn,          SHCMD(UP_VOLUME) }, 	// vol up
 	{ MODKEY,                     XK_equal ,   spawn,          {.v = upbri   } }, 	// brightness up
     { MODKEY,                     XK_minus,    spawn,          {.v = downbri } }, 	// brightness down
 	{ 0,    	       XF86XK_MonBrightnessUp, spawn,          {.v = upbri   } }, 	// brightness up
@@ -186,9 +186,9 @@ static Key keys[] = {
 	{ MODKEY,                     XK_a,        spawn,          {.v = moda } }, 		// win+a = select all
 	{ MODKEY,                     XK_x,        spawn,          {.v = modx } }, 		// win+x = cut to cb
 	{ MODKEY,                     XK_z,        spawn,          {.v = modz } }, 		// win+z = undo
-	{ MODKEY,                     XK_y,        spawn,          {.v = mody } }, 		// win+v = redo
+	{ MODKEY,                     XK_y,        spawn,          {.v = mody } }, 		// win+y = redo
 	{ MODKEY,                     XK_s,        spawn,          {.v = mods } }, 		// win+s = save
-	{ MODKEY,                     XK_f,        spawn,          {.v = modf } }, 		// win+f = save
+	{ MODKEY,                     XK_f,        spawn,          {.v = modf } }, 		// win+f = find
 };
 
 /* button definitions */
