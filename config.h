@@ -127,7 +127,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_k,      pushup,         {0} },					 /* move slave up in stack */
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} }, 			 /* change width of master window  - */
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },			 /* change width of master window  + */
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },				     /* toggle win from float to tiles and vise versa */
+	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },				     /* toggle win from float to tiles and vise versa (dot in title bar means win is float)*/
 	{ MODKEY,           			XK_space,  focusmaster,    {0} },			 		 /* go to (select) master */
 
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },			 /* add win to   master aria */
@@ -142,7 +142,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_g,      setlayout,      {.v = &layouts[3]} },/* grid HH */
 	{ MODKEY|ControlMask,           XK_u,      setlayout,      {.v = &layouts[4]} },/* master in center || || */
 	{ MODKEY|ControlMask,           XK_o,      setlayout,      {.v = &layouts[5]} },/* floating master in center (why need it?) */
-	{ MODKEY|ControlMask,           XK_space,  setlayout,      {0} },
+	{ MODKEY|ControlMask,           XK_space,  setlayout,      {0} }, /* toggle float and tile layout */
 
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },		/* select all views (show windows from all views) */
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },		/* make window visible in all views */
