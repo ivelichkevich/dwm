@@ -5,8 +5,10 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "UbuntuMono Nerd Font:size=7", "JoyPixels:pixelsize=7:antialias=true:autohint=true"};
-static const char dmenufont[]       = "monospace:size=7";
+//static const char *fonts[]          = { "UbuntuMono Nerd Font:size=7", "JoyPixels:pixelsize=7:antialias=true:autohint=true"};
+//static const char dmenufont[]       = "monospace:size=7";
+static const char *fonts[]          = { "UbuntuMono Nerd Font:size=10", "JoyPixels:pixelsize=10:antialias=true:autohint=true"};
+static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -95,9 +97,13 @@ static const char *termcmd[]  = { "st", NULL };
 #define DOWN_VOLUME "/usr/bin/pactl set-sink-volume $(pacmd list-sinks | grep '\\* index:' | awk '{print $3}') -5%"
 static const char *mutevol[] = { "/usr/bin/pamixer", "--toggle-mute", NULL };
 
-static const char *upbri[]   = { "/usr/bin/xbacklight", "-inc", "10", NULL };
-static const char *downbri[] = { "/usr/bin/xbacklight", "-dec", "10", NULL };
+//static const char *upbri[]   = { "/usr/bin/xbacklight", "-inc", "10", NULL };
+//static const char *downbri[] = { "/usr/bin/xbacklight", "-dec", "10", NULL };
+static const char *upbri[]   = { "gmux_backlight", "+100", NULL };
+static const char *downbri[] = { "gmux_backlight", "-100", NULL };
 static const char *scroff[] = { "/usr/bin/xset", "dpms", "force", "off", NULL }; // turn off screen
+static const char *upkbdbri[]   = { "macbook-lighter-kbd", "--inc", "17", NULL };
+static const char *downkbdbri[] = { "macbook-lighter-kbd", "--dec", "17", NULL };
 
 static const char *scrotcmd[]  = { "scrot", NULL };
 static const char *scrotfocusedcmd[]  = { "scrot", "--focused", NULL };
@@ -111,6 +117,8 @@ static const char *modz[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]z",
 static const char *mody[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]y",  NULL };
 static const char *mods[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]s",  NULL };
 static const char *modf[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]f",  NULL };
+static const char *modw[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]w",  NULL };
+static const char *modt[] = { "xvkbd", "-xsendevent", "-text", "\\[Control_L]t",  NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -118,6 +126,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },		 /* new st */
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} }, 					 /* Terminate the process running in the current window  */
 	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },					 /* relaunch dwm */
+
 	{ MODKEY|ShiftMask,             XK_q,      spawn,	       SHCMD("killall xinit") }, /* exit X11 */
 	{ MODKEY|ControlMask,           XK_b,      togglebar,      {0} },				     /* toggle bar */
 	{ MODKEY|ControlMask,           XK_Return, togglefullscr,  {0} },				     /* toggle fullscreen */
@@ -161,7 +170,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 
-	{ MODKEY,			            XK_w,	   spawn,	       SHCMD("$BROWSER") }, // launch browser
+	{ MODKEY,			            XK_b,	   spawn,	       SHCMD("$BROWSER") }, // launch browser
     { 0,              XF86XK_AudioLowerVolume, spawn,          SHCMD(DOWN_VOLUME) },// vol down
     { 0,                     XF86XK_AudioMute, spawn,          {.v = mutevol } }, 	// vol mute
     { 0,              XF86XK_AudioRaiseVolume, spawn,          SHCMD(UP_VOLUME) }, 	// vol up
@@ -171,13 +180,19 @@ static Key keys[] = {
 	{ MODKEY,                     XK_equal ,   spawn,          {.v = upbri   } }, 	// brightness up
     { MODKEY,                     XK_minus,    spawn,          {.v = downbri } }, 	// brightness down
 	{ 0,    	       XF86XK_MonBrightnessUp, spawn,          {.v = upbri   } }, 	// brightness up
+	{ 0,    	     XF86XK_KbdBrightnessUp,   spawn,          {.v = upkbdbri  } }, // brightness up
+	{ 0,    	     XF86XK_KbdBrightnessDown, spawn,          {.v = downkbdbri} }, // brightness up
     { 0,  	    	 XF86XK_MonBrightnessDown, spawn,          {.v = downbri } }, 	// brightness down
-	{ 0,  	    	       XF86XK_ScreenSaver, spawn,          {.v = scroff  } }, 	// turn off screen
+    { 0,                   XF86XK_ScreenSaver, spawn,          {.v = scroff  } },   // turn off screen
+	{ 0,  	    	           XF86XK_LaunchB, spawn,          {.v = scroff  } }, 	// turn off screen
 	{ MODKEY|ControlMask,         XK_s,        toggleswallow,  {.i = 2       } }, 	/* arg > 1 = toogle, 0 or 1 - set arg */
 	{ MODKEY|ControlMask,         XK_d,        nextdirection,  {.i = 6       } }, 	/* arg > 5 = toogle, 0 or 5 - set arg | 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
-	{ 0,            			  XK_Print,    spawn,          {.v = scrotcmd } }, 			/* take screenshot by scrot*/
-	{ ShiftMask,    			  XK_Print,    spawn,          {.v = scrotfocusedcmd } }, 	/* take screenshot of focused */
-	{ ControlMask,  			  XK_Print,    spawn,           SHCMD("scrot --select --freeze") }, /* select aria for screnshot */
+    { 0,                          XK_Print,    spawn,          {.v = scrotcmd } },          /* take screenshot by scrot*/
+    { ShiftMask,                  XK_Print,    spawn,          {.v = scrotfocusedcmd } },   /* take screenshot of focused */
+    { ControlMask,                XK_Print,    spawn,           SHCMD("scrot --select --freeze") }, /* select aria for screnshot */
+	{ 0,            		   XF86XK_LaunchA, spawn,          {.v = scrotcmd } }, 			/* take screenshot by scrot*/
+	{ ShiftMask,    		   XF86XK_LaunchA, spawn,          {.v = scrotfocusedcmd } }, 	/* take screenshot of focused */
+	{ ControlMask,  		   XF86XK_LaunchA, spawn,          SHCMD("scrot --select --freeze") }, /* select aria for screnshot */
 	{ MODKEY,           		  XK_Right,    shiftview,  	   { .i = +1 } },  		// next view
 	{ MODKEY,           		  XK_Left,     shiftview,      { .i = -1 } },  		// prev view
 	{ MODKEY|ShiftMask,			  XK_v,	       spawn,	       SHCMD("clipmenu") }, // open clipboard history
@@ -189,6 +204,8 @@ static Key keys[] = {
 	{ MODKEY,                     XK_y,        spawn,          {.v = mody } }, 		// win+y = redo
 	{ MODKEY,                     XK_s,        spawn,          {.v = mods } }, 		// win+s = save
 	{ MODKEY,                     XK_f,        spawn,          {.v = modf } }, 		// win+f = find
+	{ MODKEY,                     XK_w,        spawn,          {.v = modw } }, 		// win+w = close tab
+	{ MODKEY,                     XK_t,        spawn,          {.v = modt } }, 		// win+t = new tab
 };
 
 /* button definitions */
