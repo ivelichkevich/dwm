@@ -43,6 +43,9 @@ install: all
 	cp -f copypaste.sh ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/copypaste.sh
 	chmod +x ${DESTDIR}${PREFIX}/bin/copypaste.sh
+	cp -f act_win.sh ${DESTDIR}${PREFIX}/bin
+	chmod 755 ${DESTDIR}${PREFIX}/bin/act_win.sh
+	chmod +x ${DESTDIR}${PREFIX}/bin/act_win.sh
 	mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
 	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1

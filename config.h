@@ -5,9 +5,13 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-//static const char *fonts[]          = { "UbuntuMono Nerd Font:size=7", "JoyPixels:pixelsize=7:antialias=true:autohint=true"};
+//static const char *fonts[]          = {  "UbuntuMono Nerd Font:pixelsize=20:antialias=true:autohint=true", "JoyPixels:pixelsize=7:antialias=true:autohint=true"};
 //static const char dmenufont[]       = "monospace:size=7";
-static const char *fonts[]          = { "UbuntuMono Nerd Font:size=10", "JoyPixels:pixelsize=10:antialias=true:autohint=true"};
+static const char *fonts[]          = {
+        "UbuntuMono Nerd Font:pixelsize=20:antialias=true:autohint=true",
+        "UbuntuMono Nerd Font:size=10",
+        "JoyPixels:pixelsize=10:antialias=true:autohint=true"
+};
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -30,7 +34,7 @@ static const char col12[]           = "#ffffff";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm]  = { col_gray3, col_gray1, col_gray2 },
-	[SchemeCol1]  = { col1,      col_cyan,  col_gray2 },
+	[SchemeCol1]  = {  col_gray3,      col_gray1,  col_gray2 },  /* setxroot colors  */
 	[SchemeCol2]  = { col_gray3, col_cyan,  col_gray2 },
 	[SchemeCol3]  = { col_gray4, col_cyan,  col_gray2 },
 	[SchemeCol4]  = { col4,      col_cyan,  col_cyan  },
@@ -55,6 +59,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title             tags mask     isfloating   isterminal noswallow monitor */
 	{ "Gimp",     NULL,       NULL,             0,            1,           0,         0,        -1 },
+	{ NULL,       NULL,       "webcam",         0,            1,           0,         0,        -1 },
 	{ "Firefox",  NULL,       NULL,             1 << 8,       0,           0,         0,        -1 },
 	{ "st",       NULL,       NULL,             0,            0,           1,         0,        -1 },
 	{ NULL,       NULL,       "Event Tester",   0,            0,           1,         1,        -1 },
@@ -95,6 +100,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "st", NULL };
 #define UP_VOLUME  "/usr/bin/pactl set-sink-volume $(pacmd list-sinks | grep '\\* index:' | awk '{print $3}') +5%"
 #define DOWN_VOLUME "/usr/bin/pactl set-sink-volume $(pacmd list-sinks | grep '\\* index:' | awk '{print $3}') -5%"
+#define WEB_CAM "mpv --geometry=-0-0 --autofit=30% --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(\ls /dev/video[0,2,4,6,8] | tail -n 1)"
 static const char *mutevol[] = { "/usr/bin/pamixer", "--toggle-mute", NULL };
 
 //static const char *upbri[]   = { "/usr/bin/xbacklight", "-inc", "10", NULL };
@@ -141,6 +147,8 @@ static Key keys[] = {
 
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },			 /* add win to   master aria */
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },			 /* del win from master aria */
+
+//  { MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("act_win.sh") },			 /* get act win name for debug */
 
 	{ MODKEY,                       XK_Return, zoom,           {0} }, 				/* toggle a window between the master and stack area  */
 	{ MODKEY,                       XK_Tab,    view,           {0} }, 				/* alt-tab between 2 last views  */
@@ -196,6 +204,7 @@ static Key keys[] = {
 	{ MODKEY,           		  XK_Right,    shiftview,  	   { .i = +1 } },  		// next view
 	{ MODKEY,           		  XK_Left,     shiftview,      { .i = -1 } },  		// prev view
 	{ MODKEY|ShiftMask,			  XK_v,	       spawn,	       SHCMD("clipmenu") }, // open clipboard history
+    { MODKEY,                   XK_F11,         spawn,         SHCMD(WEB_CAM) },    // open mpv on /dev/video0 (web cam)
 	{ MODKEY,                     XK_c,        spawn,          {.v = modc } }, 		// win+c = copy to cb
 	{ MODKEY,                     XK_v,        spawn,          {.v = modv } }, 		// win+v = paste from cb
 	{ MODKEY,                     XK_a,        spawn,          {.v = moda } }, 		// win+a = select all
