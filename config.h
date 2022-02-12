@@ -69,6 +69,7 @@ static const Rule rules[] = {
 static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 static int isswallow = 1;
 static int attachdirection = 2;    /* 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
 
@@ -100,7 +101,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "st", NULL };
 #define UP_VOLUME  "/usr/bin/pactl set-sink-volume $(pacmd list-sinks | grep '\\* index:' | awk '{print $3}') +5%"
 #define DOWN_VOLUME "/usr/bin/pactl set-sink-volume $(pacmd list-sinks | grep '\\* index:' | awk '{print $3}') -5%"
-#define WEB_CAM "mpv --geometry=-0-0 --autofit=30% --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(\ls /dev/video[0,2,4,6,8] | tail -n 1)"
+#define WEB_CAM "mpv --geometry=-0-0 --autofit=30% --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(\\ls /dev/video[0,2,4,6,8] | tail -n 1)"
 static const char *mutevol[] = { "/usr/bin/pamixer", "--toggle-mute", NULL };
 
 //static const char *upbri[]   = { "/usr/bin/xbacklight", "-inc", "10", NULL };
