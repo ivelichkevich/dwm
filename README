@@ -79,6 +79,9 @@ https://dwm.suckless.org/patches/nextprev
     { MODKEY,           		  XK_Right,    shiftview,  	   { .i = +1 } }, // next tag
 	{ MODKEY,           		  XK_Left,     shiftview,      { .i = -1 } }, // prev tag
 
+Pertag enables one layout per tag in contrast of one layout for all tags, keeps layout, mwfact, barpos and nmaster per tag.
+https://dwm.suckless.org/patches/pertag
+https://dwm.suckless.org/patches/pertag/dwm-pertag-perseltag-6.2.diff
 
 Running dwm
 -----------

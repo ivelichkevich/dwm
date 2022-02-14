@@ -149,7 +149,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },			 /* add win to   master aria */
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },			 /* del win from master aria */
 
-//  { MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("act_win.sh") },			 /* get act win name for debug */
+    { MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("act_win.sh") },			 /* get act win name for debug */
 
 	{ MODKEY,                       XK_Return, zoom,           {0} }, 				/* toggle a window between the master and stack area  */
 	{ MODKEY,                       XK_Tab,    view,           {0} }, 				/* alt-tab between 2 last views  */
