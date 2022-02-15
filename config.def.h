@@ -57,12 +57,13 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title             tags mask     isfloating   isterminal noswallow monitor */
-	{ "Gimp",     NULL,       NULL,             0,            1,           0,         0,        -1 },
-	{ NULL,       NULL,       "webcam",         0,            1,           0,         0,        -1 },
-	{ "Firefox",  NULL,       NULL,             1 << 8,       0,           0,         0,        -1 },
-	{ "st",       NULL,       NULL,             0,            0,           1,         0,        -1 },
-	{ NULL,       NULL,       "Event Tester",   0,            0,           1,         1,        -1 },
+	/* class      instance    title             tags mask     isfloating   isterminal noswallow monitor  ignoretransient */
+	{ "Gimp",           NULL,       NULL,             0,            0,           0,         0,        -1,       0},
+	{ "jetbrains-idea", NULL,       NULL,             0,            0,           0,         0,        -1,       1},
+	{ NULL,             NULL,       "webcam",         0,            1,           0,         0,        -1,       0},
+	{ "Firefox",        NULL,       NULL,             1 << 8,       0,           0,         0,        -1,       0},
+	{ "st",             NULL,       NULL,             0,            0,           1,         0,        -1,       0},
+	{ NULL,             NULL,       "Event Tester",   0,            0,           1,         1,        -1,       0},
 };
 
 /* layout(s) */
@@ -101,7 +102,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "st", NULL };
 #define UP_VOLUME  "/usr/bin/pactl set-sink-volume $(pacmd list-sinks | grep '\\* index:' | awk '{print $3}') +5%"
 #define DOWN_VOLUME "/usr/bin/pactl set-sink-volume $(pacmd list-sinks | grep '\\* index:' | awk '{print $3}') -5%"
-#define WEB_CAM "mpv --geometry=-0-0 --autofit=30% --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(\ls /dev/video[0,2,4,6,8] | tail -n 1)"
+#define WEB_CAM "mpv --geometry=-0-0 --autofit=30% --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(\\ls /dev/video[0,2,4,6,8] | tail -n 1)"
 static const char *mutevol[] = { "/usr/bin/pamixer", "--toggle-mute", NULL };
 
 //static const char *upbri[]   = { "/usr/bin/xbacklight", "-inc", "10", NULL };

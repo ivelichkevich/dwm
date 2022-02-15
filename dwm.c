@@ -102,7 +102,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isterminal, noswallow;
+	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isterminal, noswallow, ignoretransient;
 	pid_t pid;
 	Client *next;
 	Client *snext;
@@ -155,6 +155,7 @@ typedef struct {
 	int isterminal;
 	int noswallow;
 	int monitor;
+    int ignoretransient;
 } Rule;
 
 /* function declarations */
@@ -356,6 +357,7 @@ applyrules(Client *c)
 		{
 			c->isterminal = r->isterminal;
 			c->isfloating = r->isfloating;
+            c->ignoretransient = r->ignoretransient;
 			c->tags |= r->tags;
 			for (m = mons; m && m->num != r->monitor; m = m->next);
 			if (m)
@@ -1184,7 +1186,7 @@ incnmaster(const Arg *arg)
 	for(i=0; i<LENGTH(tags); ++i)
 		if(selmon->tagset[selmon->seltags] & 1<<i)
 			selmon->pertag->nmasters[i+1] = selmon->nmaster;
-	
+
 	if(selmon->pertag->curtag == 0)
 	{
 		selmon->pertag->nmasters[0] = selmon->nmaster;
@@ -1481,7 +1483,7 @@ propertynotify(XEvent *e)
 		switch(ev->atom) {
 		default: break;
 		case XA_WM_TRANSIENT_FOR:
-			if (!c->isfloating && (XGetTransientForHint(dpy, c->win, &trans)) &&
+			if (!c->ignoretransient && !c->isfloating && (XGetTransientForHint(dpy, c->win, &trans)) &&
 				(c->isfloating = (wintoclient(trans)) != NULL))
 				arrange(c->mon);
 			break;
@@ -1799,13 +1801,13 @@ setlayout(const Arg *arg)
 	for(i=0; i<LENGTH(tags); ++i)
 		if(selmon->tagset[selmon->seltags] & 1<<i)
 		{
-			selmon->pertag->ltidxs[i+1][selmon->sellt] = selmon->lt[selmon->sellt]; 
+			selmon->pertag->ltidxs[i+1][selmon->sellt] = selmon->lt[selmon->sellt];
 			selmon->pertag->sellts[i+1] = selmon->sellt;
 		}
-	
+
 	if(selmon->pertag->curtag == 0)
 	{
-		selmon->pertag->ltidxs[0][selmon->sellt] = selmon->lt[selmon->sellt]; 
+		selmon->pertag->ltidxs[0][selmon->sellt] = selmon->lt[selmon->sellt];
 		selmon->pertag->sellts[0] = selmon->sellt;
 	}
 

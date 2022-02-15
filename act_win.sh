@@ -6,3 +6,5 @@
 #xprop -id $(xdotool getactivewindow) >> /home/ihar/act_win
 #echo "|" >> /home/ihar/act_win
 xdotool getwindowfocus getwindowname  >> /home/ihar/act_win
+xprop -id $(xdotool getactivewindow) >> /home/ihar/act_win
+# xprop WM_CLASS

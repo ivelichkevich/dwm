@@ -83,6 +83,11 @@ Pertag enables one layout per tag in contrast of one layout for all tags, keeps 
 https://dwm.suckless.org/patches/pertag
 https://dwm.suckless.org/patches/pertag/dwm-pertag-perseltag-6.2.diff
 
+Stop idea become float
+https://github.com/Aram1d/dwm-6.2/commit/f47c3c83257eed490c6aaf876fbb67b2ddb8b62c
+https://www.reddit.com/r/suckless/comments/k67tso/dwm_webstormjetbrains_webstorm_window_becomes
+https://www.reddit.com/r/suckless/comments/k4j89d/dwm_java_app_put_itself_in_floating_mode_when/geclpqt
+
 Running dwm
 -----------
 Add the following line to your .xinitrc to start dwm using startx:
