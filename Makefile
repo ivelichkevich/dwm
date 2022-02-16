@@ -5,7 +5,7 @@ include config.mk
 
 SRC = drw.c dwm.c util.c
 OBJ = ${SRC:.c=.o}
-HOST = $(shell hostname)
+MAC = $(shell hostname | grep -c mac)
 
 all: options dwm
 
@@ -14,10 +14,10 @@ options:
 	@echo "CFLAGS   = ${CFLAGS}"
 	@echo "LDFLAGS  = ${LDFLAGS}"
 	@echo "CC       = ${CC}"
-	@echo "HOST     = ${HOST}"
+	@echo "MAC      = ${MAC}"
 
 .c.o:
-	${CC} -c "-DHOST=${HOST}" ${CFLAGS} $<
+	${CC} -c "-DMAC=${MAC}" ${CFLAGS} $<
 
 ${OBJ}: config.mk
 

@@ -6,7 +6,7 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = {
-#if HOST == macarch
+#if MAC == 1
         "UbuntuMono Nerd Font:pixelsize=20:antialias=true:autohint=true",
         "UbuntuMono Nerd Font:size=10",
         "JoyPixels:pixelsize=10:antialias=true:autohint=true"
@@ -16,7 +16,7 @@ static const char *fonts[]          = {
         "JoyPixels:pixelsize=7:antialias=true:autohint=true"
 #endif
 };
-#if (HOST == macarch)
+#if MAC == 1
 static const char dmenufont[]       = "monospace:size=10";
 #else
 static const char dmenufont[]       = "monospace:size=7";
@@ -113,7 +113,7 @@ static const char *termcmd[]  = { "st", NULL };
 #define WEB_CAM "mpv --geometry=-0-0 --autofit=30% --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(\\ls /dev/video[0,2,4,6,8] | tail -n 1)"
 static const char *mutevol[] = { "/usr/bin/pamixer", "--toggle-mute", NULL };
 
-#if (HOST == macarch)
+#if MAC == 1
 static const char *upbri[]   = { "gmux_backlight", "+100", NULL };
 static const char *downbri[] = { "gmux_backlight", "-100", NULL };
 #else
