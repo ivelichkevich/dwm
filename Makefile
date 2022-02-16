@@ -5,6 +5,7 @@ include config.mk
 
 SRC = drw.c dwm.c util.c
 OBJ = ${SRC:.c=.o}
+HOST = $(shell hostname)
 
 all: options dwm
 
@@ -13,9 +14,10 @@ options:
 	@echo "CFLAGS   = ${CFLAGS}"
 	@echo "LDFLAGS  = ${LDFLAGS}"
 	@echo "CC       = ${CC}"
+	@echo "HOST     = ${HOST}"
 
 .c.o:
-	${CC} -c "-DHOST=$HOST" ${CFLAGS} $<
+	${CC} -c "-DHOST=${HOST}" ${CFLAGS} $<
 
 ${OBJ}: config.mk
 

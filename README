@@ -25,6 +25,9 @@ necessary as root):
 
     make clean install
 
+run preprocessor only
+    gcc -E config.h
+
 Patched
 -----------
 https://dwm.suckless.org/customisation/patches_in_git
