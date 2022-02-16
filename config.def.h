@@ -57,7 +57,7 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title             tags mask     isfloating   isterminal noswallow monitor  ignoretransient */
+	/* class          instance     title          tags mask     isfloating  isterminal  noswallow  monitor ignoretransient */
 	{ "Gimp",           NULL,       NULL,             0,            0,           0,         0,        -1,       0},
 	{ "jetbrains-idea", NULL,       NULL,             0,            0,           0,         0,        -1,       1},
 	{ NULL,             NULL,       "webcam",         0,            1,           0,         0,        -1,       0},
@@ -67,12 +67,12 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.5;  /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 static int isswallow = 1;
-static int attachdirection = 2;    /* 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
+static int attachdirection = 2;      /* 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
 
 #include "layouts.c"
 static const Layout layouts[] = {
@@ -149,9 +149,6 @@ static Key keys[] = {
 
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },			 /* add win to   master aria */
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },			 /* del win from master aria */
-
-    { MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("act_win.sh") },			 /* get act win name for debug */
-
 	{ MODKEY,                       XK_Return, zoom,           {0} }, 				/* toggle a window between the master and stack area  */
 	{ MODKEY,                       XK_Tab,    view,           {0} }, 				/* alt-tab between 2 last views  */
 
