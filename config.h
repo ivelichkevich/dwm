@@ -11,7 +11,7 @@ static const char *fonts[]          = {
         "UbuntuMono Nerd Font:size=10",
         "JoyPixels:pixelsize=10:antialias=true:autohint=true"
 #else
-        "UbuntuMono Nerd Font:pixelsize=12:antialias=true:autohint=true",
+        "UbuntuMono Nerd Font:pixelsize=10:antialias=true:autohint=true",
         "UbuntuMono Nerd Font:size=7",
         "JoyPixels:pixelsize=7:antialias=true:autohint=true"
 #endif
