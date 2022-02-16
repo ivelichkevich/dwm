@@ -6,7 +6,7 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = {
-#if (HOST == macarch)
+#if HOST == macarch
         "UbuntuMono Nerd Font:pixelsize=20:antialias=true:autohint=true",
         "UbuntuMono Nerd Font:size=10",
         "JoyPixels:pixelsize=10:antialias=true:autohint=true"
