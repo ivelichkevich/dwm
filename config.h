@@ -5,14 +5,22 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-//static const char *fonts[]          = {  "UbuntuMono Nerd Font:pixelsize=20:antialias=true:autohint=true", "JoyPixels:pixelsize=7:antialias=true:autohint=true"};
-//static const char dmenufont[]       = "monospace:size=7";
 static const char *fonts[]          = {
+#if (HOST == macarch)
         "UbuntuMono Nerd Font:pixelsize=20:antialias=true:autohint=true",
         "UbuntuMono Nerd Font:size=10",
         "JoyPixels:pixelsize=10:antialias=true:autohint=true"
+#else
+        "UbuntuMono Nerd Font:pixelsize=20:antialias=true:autohint=true",
+        "UbuntuMono Nerd Font:size=7",
+        "JoyPixels:pixelsize=7:antialias=true:autohint=true"
+#endif
 };
+#if (HOST == macarch)
 static const char dmenufont[]       = "monospace:size=10";
+#else
+static const char dmenufont[]       = "monospace:size=7";
+#endif
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -105,13 +113,16 @@ static const char *termcmd[]  = { "st", NULL };
 #define WEB_CAM "mpv --geometry=-0-0 --autofit=30% --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(\\ls /dev/video[0,2,4,6,8] | tail -n 1)"
 static const char *mutevol[] = { "/usr/bin/pamixer", "--toggle-mute", NULL };
 
-//static const char *upbri[]   = { "/usr/bin/xbacklight", "-inc", "10", NULL };
-//static const char *downbri[] = { "/usr/bin/xbacklight", "-dec", "10", NULL };
+#if (HOST == macarch)
 static const char *upbri[]   = { "gmux_backlight", "+100", NULL };
 static const char *downbri[] = { "gmux_backlight", "-100", NULL };
+#else
+static const char *upbri[]   = { "/usr/bin/xbacklight", "-inc", "10", NULL };
+static const char *downbri[] = { "/usr/bin/xbacklight", "-dec", "10", NULL };
+#endif
 static const char *scroff[] = { "/usr/bin/xset", "dpms", "force", "off", NULL }; // turn off screen
-static const char *upkbdbri[]   = { "macbook-lighter-kbd", "--inc", "17", NULL };
-static const char *downkbdbri[] = { "macbook-lighter-kbd", "--dec", "17", NULL };
+static const char *upkbdbri[]   = { "sudo", "macbook-lighter-kbd", "--inc", "17", NULL };
+static const char *downkbdbri[] = { "sudo", "macbook-lighter-kbd", "--dec", "17", NULL };
 
 static const char *scrotcmd[]  = { "scrot", NULL };
 static const char *scrotfocusedcmd[]  = { "scrot", "--focused", NULL };

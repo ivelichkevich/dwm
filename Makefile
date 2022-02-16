@@ -15,7 +15,7 @@ options:
 	@echo "CC       = ${CC}"
 
 .c.o:
-	${CC} -c ${CFLAGS} $<
+	${CC} -c "-DHOST=$HOST" ${CFLAGS} $<
 
 ${OBJ}: config.mk
 
