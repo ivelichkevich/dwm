@@ -6,6 +6,7 @@ yay -S libxft-bgra
 yay -S xdotool
 yay -S xvkbd
 yay -S scrot
+yay -S slop
 
 make && sudo make clean install
 

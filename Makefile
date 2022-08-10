@@ -45,6 +45,9 @@ install: all
 	cp -f copypaste.sh ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/copypaste.sh
 	chmod +x ${DESTDIR}${PREFIX}/bin/copypaste.sh
+	cp -f dmenurecord ${DESTDIR}${PREFIX}/bin
+	chmod 755 ${DESTDIR}${PREFIX}/bin/dmenurecord
+	chmod +x ${DESTDIR}${PREFIX}/bin/dmenurecord
 	cp -f act_win.sh ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/act_win.sh
 	chmod +x ${DESTDIR}${PREFIX}/bin/act_win.sh

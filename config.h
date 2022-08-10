@@ -210,11 +210,14 @@ static Key keys[] = {
     { ControlMask,                XK_Print,    spawn,           SHCMD("scrot --select --freeze") }, /* select aria for screnshot */
 	{ 0,            		   XF86XK_LaunchA, spawn,          {.v = scrotcmd } }, 			/* take screenshot by scrot*/
 	{ ShiftMask,    		   XF86XK_LaunchA, spawn,          {.v = scrotfocusedcmd } }, 	/* take screenshot of focused */
-	{ ControlMask,  		   XF86XK_LaunchA, spawn,          SHCMD("scrot --select --freeze") }, /* select aria for screnshot */
-	{ MODKEY,           		  XK_Right,    shiftview,  	   { .i = +1 } },  		// next view
-	{ MODKEY,           		  XK_Left,     shiftview,      { .i = -1 } },  		// prev view
+	{ ControlMask,      XF86XK_LaunchA,        spawn,          SHCMD("scrot --select --freeze") }, /* select aria for screnshot */
+	{ MODKEY,           	  XK_Right,        shiftview,  	   { .i = +1 } },  		// next view
+	{ MODKEY,           	   XK_Left,        shiftview,      { .i = -1 } },  		// prev view
 	{ MODKEY|ShiftMask,			  XK_v,	       spawn,	       SHCMD("clipmenu") }, // open clipboard history
     { MODKEY,                   XK_F11,         spawn,         SHCMD(WEB_CAM) },    // open mpv on /dev/video0 (web cam)
+    { MODKEY|ControlMask,       XK_F12,         spawn,         SHCMD("dmenurecord") },    //
+    { MODKEY|ShiftMask,         XK_F12,         spawn,         SHCMD("dmenurecord kill") },    //
+    { MODKEY,                   XK_F12,         spawn,         SHCMD("dmenurecord screencast") },    //
 	{ MODKEY,                     XK_c,        spawn,          {.v = modc } }, 		// win+c = copy to cb
 	{ MODKEY,                     XK_v,        spawn,          {.v = modv } }, 		// win+v = paste from cb
 	{ MODKEY,                     XK_a,        spawn,          {.v = moda } }, 		// win+a = select all
